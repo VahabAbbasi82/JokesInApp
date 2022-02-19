@@ -30,6 +30,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext appContext: Con
     }
 
     val appCounter: Flow<Int> = dataStore.data.map { preferences ->
-        preferences[APP_COUNTER] ?: 0
+        preferences[APP_COUNTER] ?: 1
     }
 }

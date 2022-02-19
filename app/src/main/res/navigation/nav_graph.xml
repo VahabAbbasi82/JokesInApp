@@ -8,15 +8,17 @@
     <fragment
         android:id="@+id/counterFragment"
         android:name="ir.vahab.jokesinapp.presentation.ui.CounterFragment"
-        android:label="fragment_counter"
-        tools:layout="@layout/fragment_counter" >
+        android:label="Jokes"
+        tools:layout="@layout/fragment_counter">
         <action
-            android:id="@+id/action_counterFragment_to_jokesFragment"
-            app:destination="@id/jokesFragment" />
+            android:id="@+id/navigateToJokesFragment"
+            app:destination="@id/jokesFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/jokesFragment"
         android:name="ir.vahab.jokesinapp.presentation.ui.JokesFragment"
-        android:label="fragment_jokes"
+        android:label="Jokes"
         tools:layout="@layout/fragment_jokes" />
 </navigation>

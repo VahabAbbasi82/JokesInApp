@@ -9,4 +9,12 @@
     android:background="@color/primary"
     tools:context=".presentation.ui.JokesFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Jokes"
+        android:layout_gravity="center"
+        android:textSize="22sp"
+        android:textColor="#dfdd23"
+        android:layout_height="wrap_content" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
