@@ -16,9 +16,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideLockRepository(
+    fun provideJokeRepository(
         api: AppApi,
         db: AppDB,
-    ): JokeRepository =
-        JokeRepositoryImpl(api, db)
+    ): JokeRepository = JokeRepositoryImpl(api, db)
 }

@@ -15,6 +15,6 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetLocksUseCase(jokeRepository: JokeRepository): GetJokesUseCase =
+    fun provideGetJokeUseCase(jokeRepository: JokeRepository): GetJokesUseCase =
         GetJokesUseCaseImpl(jokeRepository = jokeRepository)
 }

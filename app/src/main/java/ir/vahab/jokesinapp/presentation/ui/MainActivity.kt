@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.material.internal.ContextUtils.getActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ir.vahab.jokesinapp.R
 
@@ -29,5 +30,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        moveTaskToBack(true)
     }
 }

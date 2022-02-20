@@ -1,6 +1,7 @@
 package ir.vahab.jokesinapp.presentation.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -33,6 +34,12 @@ class JokesFragment : Fragment(R.layout.fragment_jokes) {
         binding = FragmentJokesBinding.bind(view)
         init()
         subscribe()
+        binding.apply {
+            listSwiper.setOnRefreshListener {
+                viewModel.refresh()
+                listSwiper.isRefreshing = false
+            }
+        }
     }
 
     private fun init() {
@@ -49,7 +56,7 @@ class JokesFragment : Fragment(R.layout.fragment_jokes) {
     private fun subscribe() {
         binding.apply {
             lifecycleScope.launchWhenResumed {
-                viewModel.locksFlow.collectLatest {
+                viewModel.jokesFlow.collectLatest {
                     progressBar.isVisible = it is Resource.Loading
 
                     when (it) {
@@ -69,7 +76,7 @@ class JokesFragment : Fragment(R.layout.fragment_jokes) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu)
 
         val searchItem = menu.findItem(R.id.action_search_query)
         searchView = searchItem.actionView as SearchView
@@ -84,4 +91,6 @@ class JokesFragment : Fragment(R.layout.fragment_jokes) {
             viewModel.searchQuery.value = it
         }
     }
+
+    val TAG = "JokesFragment"
 }

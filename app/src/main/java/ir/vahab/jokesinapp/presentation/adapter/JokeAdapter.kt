@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -20,11 +21,13 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeAdapter.ViewHolder {
-        TODO("Not yet implemented")
+        val binding = ItemJokeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: JokeAdapter.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val joke = getItem(position)
+        holder.bind(joke)
     }
 
     private fun highLightText(spannable: Spannable, string: String, start: Int) {
@@ -42,7 +45,7 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
         fun bind(joke: Joke) {
             binding.apply {
                 val jokeCategory = joke.category
-                val jokeText = joke.joke
+                val jokeText = joke.setup
 
                 if (searchQuery.isNotEmpty()) {
                     val lockNameSpannable = SpannableString(jokeCategory)
@@ -68,6 +71,7 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
         override fun areContentsTheSame(oldItem: Joke, newItem: Joke) =
             oldItem == newItem &&
                     !oldItem.category.lowercase().contains(searchQuery.lowercase()) &&
-                    !oldItem.joke.lowercase().contains(searchQuery.lowercase())
+                    !oldItem.setup.lowercase().contains(searchQuery.lowercase()) &&
+                    !oldItem.delivery.lowercase().contains(searchQuery.lowercase())
     }
 }

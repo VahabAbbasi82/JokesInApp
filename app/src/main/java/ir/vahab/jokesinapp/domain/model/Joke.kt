@@ -5,9 +5,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "tblJoke")
 data class Joke(
-    val category : String,
+    val category: String,
+    val type: String,
+    val setup: String,
+    val delivery: String,
     @PrimaryKey
-    val id : Int,
-    val joke : String,
-    val safe : Boolean,
+    val id: Int,
+    val safe: Boolean,
+    val lang: String
 )

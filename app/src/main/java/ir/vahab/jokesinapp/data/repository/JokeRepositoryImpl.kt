@@ -1,5 +1,6 @@
 package ir.vahab.jokesinapp.data.repository
 
+import android.util.Log
 import androidx.room.withTransaction
 import ir.vahab.jokesinapp.data.local.AppDB
 import ir.vahab.jokesinapp.data.remote.AppApi
@@ -8,8 +9,9 @@ import ir.vahab.jokesinapp.domain.model.Joke
 import ir.vahab.jokesinapp.domain.repository.JokeRepository
 import ir.vahab.jokesinapp.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class JokeRepositoryImpl(
+class JokeRepositoryImpl @Inject constructor(
     private val appApi: AppApi,
     private val appDB: AppDB
 ) : JokeRepository {
@@ -19,13 +21,12 @@ class JokeRepositoryImpl(
             appDB.jokeDao().getAll(searchQuery)
         },
         fetch = {
-            appApi.getData()
+            appApi.getJokeData("twopart", 10) //listOf("nsfw"),"twopart", 10)
         },
         saveFetchResult = { result ->
             appDB.withTransaction {
-
-                val jokes = result.jokes
-                appDB.jokeDao().insertAll(jokes)
+                appDB.jokeDao().deleteAll()
+                appDB.jokeDao().insertAll(result.jokes)
             }
         },
         shouldFetch = {
@@ -33,4 +34,6 @@ class JokeRepositoryImpl(
             true
         }
     )
+
+    val TAG = "JokeRepositoryImpl"
 }
