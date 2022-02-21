@@ -39,29 +39,30 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
         }
     }
 
-    inner class ViewHolder(private val binding : ItemJokeBinding) :
+    inner class ViewHolder(private val binding: ItemJokeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(joke: Joke) {
             binding.apply {
                 val jokeCategory = joke.category
-                val jokeText = joke.setup
+                val jokeSetup = joke.setup
 
                 if (searchQuery.isNotEmpty()) {
-                    val lockNameSpannable = SpannableString(jokeCategory)
-                    highLightText(lockNameSpannable, jokeCategory, 0)
-                    itemJokeCategory.text = lockNameSpannable
+                    val jokeCatSpannable = SpannableString(jokeCategory)
+                    highLightText(jokeCatSpannable, jokeCategory, 0)
+                    itemJokeCategory.text = jokeCatSpannable
 
-                    val lockDetailSpannable = SpannableString(jokeText)
-                    highLightText(lockDetailSpannable, jokeText, 0)
+                    val lockDetailSpannable = SpannableString(jokeSetup)
+                    highLightText(lockDetailSpannable, jokeSetup, 0)
                     itemJokeText.text = lockDetailSpannable
                 } else {
                     itemJokeCategory.text = jokeCategory
-                    itemJokeText.text = jokeText
+                    itemJokeText.text = jokeSetup
                 }
             }
         }
     }
+
 
     object DiffCallback : DiffUtil.ItemCallback<Joke>() {
         var searchQuery = ""
@@ -71,7 +72,6 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
         override fun areContentsTheSame(oldItem: Joke, newItem: Joke) =
             oldItem == newItem &&
                     !oldItem.category.lowercase().contains(searchQuery.lowercase()) &&
-                    !oldItem.setup.lowercase().contains(searchQuery.lowercase()) &&
-                    !oldItem.delivery.lowercase().contains(searchQuery.lowercase())
+                    !oldItem.setup.lowercase().contains(searchQuery.lowercase())
     }
 }

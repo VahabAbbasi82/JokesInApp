@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import ir.vahab.jokesinapp.data.local.dao.JokeDao
 import ir.vahab.jokesinapp.domain.model.Joke
 
-@Database(entities = [Joke::class], version = 1, exportSchema = false)
+@Database(entities = [Joke::class], version = 1)
 abstract class AppDB : RoomDatabase() {
 
     companion object {

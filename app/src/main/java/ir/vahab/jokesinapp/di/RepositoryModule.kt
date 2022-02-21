@@ -18,6 +18,6 @@ object RepositoryModule {
     @Singleton
     fun provideJokeRepository(
         api: AppApi,
-        db: AppDB,
+        db: AppDB
     ): JokeRepository = JokeRepositoryImpl(api, db)
 }

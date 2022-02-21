@@ -2,6 +2,7 @@ package ir.vahab.jokesinapp.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        moveTaskToBack(true)
+        finish()
     }
 }

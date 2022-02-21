@@ -1,6 +1,9 @@
 package ir.vahab.jokesinapp.data.local.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import ir.vahab.jokesinapp.domain.model.Joke
 import kotlinx.coroutines.flow.Flow
 
@@ -13,14 +16,10 @@ interface JokeDao {
     @Query("DELETE FROM tblJoke")
     suspend fun deleteAll()
 
-    @Query("SELECT tblJoke.* FROM tblJoke " +
+    @Query("SELECT tblJoke.* " +
+            "FROM tblJoke " +
             "WHERE tblJoke.category LIKE '%' || :searchQuery ||'%' " +
             "OR tblJoke.setup LIKE '%' || :searchQuery ||'%' " +
             "OR tblJoke.delivery LIKE '%' || :searchQuery ||'%'")
     fun getAll(searchQuery: String): Flow<List<Joke>>
-
-//    @Query("SELECT tblJoke.* FROM tblJoke " +
-//            "WHERE tblJoke.category LIKE '%' || :searchQuery ||'%' " +
-//            "OR tblJoke.joke LIKE '%' || :searchQuery ||'%'")
-//    fun getAll(searchQuery: String): Flow<List<Joke>>
 }

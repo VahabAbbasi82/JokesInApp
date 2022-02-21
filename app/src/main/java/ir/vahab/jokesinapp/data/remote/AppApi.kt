@@ -12,10 +12,12 @@ interface AppApi {
     }
 
     @GET("Any")
-    suspend fun getJokeData(
+    suspend fun getData(
         @Query("type") type: String,
         @Query("amount") amount: Int
     ): ApiResponse
-//    @Query("blacklistFlags") blacklistFlags: List<String>,
 
+
+
+//    @Query("blacklistFlags") blacklistFlags: List<String>,
 }

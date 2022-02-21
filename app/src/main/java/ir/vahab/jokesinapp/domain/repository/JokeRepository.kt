@@ -5,5 +5,5 @@ import ir.vahab.jokesinapp.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface JokeRepository {
-    fun getAll(searchQuery: String): Flow<Resource<List<Joke>>>
+    fun getAll(searchQuery: String, shouldFetch: Boolean): Flow<Resource<List<Joke>>>
 }

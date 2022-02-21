@@ -5,5 +5,5 @@ import ir.vahab.jokesinapp.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface GetJokesUseCase {
-    operator fun invoke(searchQuery: String): Flow<Resource<List<Joke>>>
+    operator fun invoke(searchQuery: String, shouldFetch: Boolean): Flow<Resource<List<Joke>>>
 }

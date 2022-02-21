@@ -1,5 +1,6 @@
 package ir.vahab.jokesinapp.presentation.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -17,9 +18,10 @@ import ir.vahab.jokesinapp.R
 import ir.vahab.jokesinapp.databinding.FragmentJokesBinding
 import ir.vahab.jokesinapp.domain.util.Resource
 import ir.vahab.jokesinapp.presentation.adapter.JokeAdapter
-import ir.vahab.jokesinapp.presentation.util.setOnQueryTextChanged
 import ir.vahab.jokesinapp.presentation.viewmodel.JokeViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class JokesFragment : Fragment(R.layout.fragment_jokes) {
@@ -29,14 +31,33 @@ class JokesFragment : Fragment(R.layout.fragment_jokes) {
     private lateinit var jokeAdapter : JokeAdapter
     private lateinit var searchView : SearchView
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentJokesBinding.bind(view)
         init()
         subscribe()
+
         binding.apply {
             listSwiper.setOnRefreshListener {
-                viewModel.refresh()
+
+                lifecycleScope.launchWhenResumed {
+                    viewModel.jokesFlow.collectLatest {
+                        progressBar.isVisible = it is Resource.Loading
+
+                        when (it) {
+                            is Resource.Error -> it.error?.let { error ->
+                                Toast.makeText(requireActivity(), error.toString(), Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                            is Resource.Success -> it.data?.let { data ->
+                                jokeAdapter.submitList(data)
+                                jokeAdapter.searchQuery = viewModel.searchQuery.value
+                            }
+                            else -> {}
+                        }
+                    }
+                }
                 listSwiper.isRefreshing = false
             }
         }
@@ -74,23 +95,4 @@ class JokesFragment : Fragment(R.layout.fragment_jokes) {
             }
         }
     }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
-
-        val searchItem = menu.findItem(R.id.action_search_query)
-        searchView = searchItem.actionView as SearchView
-
-        val pendingQuery = viewModel.searchQuery.value
-        if (pendingQuery.isNotEmpty()) {
-            searchItem.expandActionView()
-            searchView.setQuery(pendingQuery, false)
-        }
-
-        searchView.setOnQueryTextChanged {
-            viewModel.searchQuery.value = it
-        }
-    }
-
-    val TAG = "JokesFragment"
 }
