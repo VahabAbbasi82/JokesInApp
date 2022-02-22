@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-mdpi/button_close_bg.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable-mdpi/color_background_gr.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable-mdpi/dialog_bg.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/ic_joker_svgrepo_com.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/splash_background.xml" value="0.2325" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/layout/dialog_joke_detail.xml" value="0.3392210144927536" />
         <entry key="app/src/main/res/layout/fragment_counter.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/fragment_jokes.xml" value="0.3192771084337349" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1890625" />

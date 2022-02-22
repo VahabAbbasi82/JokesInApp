@@ -10,4 +10,10 @@
     <color name="teal_700">#8BC34A</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="button_border">#FF5722</color>
+    <color name="button_border_press">#bfbfbf</color>
+    <color name="color_pr_gradient1">#FF5722</color>
+    <color name="color_pr_gradient2">#F8754B</color>
+    <color name="color_pr_gradient3">#F89D7F</color>
 </resources>

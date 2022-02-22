@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -61,6 +62,9 @@ class JokesFragment : Fragment(R.layout.fragment_jokes) {
                 listSwiper.isRefreshing = false
             }
         }
+
+//        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {} })
     }
 
     private fun init() {
@@ -95,4 +99,6 @@ class JokesFragment : Fragment(R.layout.fragment_jokes) {
             }
         }
     }
+
+
 }

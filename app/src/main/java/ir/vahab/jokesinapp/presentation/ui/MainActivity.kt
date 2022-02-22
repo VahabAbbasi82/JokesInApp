@@ -1,13 +1,11 @@
 package ir.vahab.jokesinapp.presentation.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.material.internal.ContextUtils.getActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ir.vahab.jokesinapp.R
 
@@ -34,6 +32,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        finish()
+        val count = supportFragmentManager.backStackEntryCount
+
+        if (count == 0) {
+            super.onBackPressed()
+//            moveTaskToBack(true)
+            finish()
+        } else {
+            for (i in 1..count) {
+                supportFragmentManager.popBackStack()
+            }
+        }
     }
 }

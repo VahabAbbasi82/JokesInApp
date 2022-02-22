@@ -21,15 +21,20 @@ class CounterFragment : Fragment(R.layout.fragment_counter) {
 
     @Inject
     lateinit var preferencesManager : PreferencesManager
+    lateinit var binding : FragmentCounterBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentCounterBinding.bind(view)
+        binding = FragmentCounterBinding.bind(view)
         init()
         binding.apply {
             val counter = runBlocking { preferencesManager.appCounter.first() }
             tvCounter.text = String.format("App Counter = $counter")
         }
+        controller(view)
+    }
+
+    private fun controller(view: View) {
         val thread = object : Thread() {
             override fun run() {
                 try {
@@ -40,7 +45,7 @@ class CounterFragment : Fragment(R.layout.fragment_counter) {
                     Navigation.findNavController(view).navigate(action)
 
                 } catch (localException: Exception) {
-                    Log.e("CounterFragment", "onViewCreated")
+                    Log.i("controller", "handler executed")
                 }
             }
         }
@@ -52,5 +57,10 @@ class CounterFragment : Fragment(R.layout.fragment_counter) {
         CoroutineScope(Dispatchers.IO).launch {
             preferencesManager.setAppCounter(preferencesManager.appCounter.first() + 1)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        view?.let { controller(it) }
     }
 }
