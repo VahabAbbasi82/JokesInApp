@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <gradient android:startColor="@color/primary"
-        android:centerColor="#2C2B2B"
+    <gradient android:startColor="#252224"
+        android:centerColor="#28262A"
         android:centerY="0.5"
-        android:endColor="#424040"
+        android:endColor="#252224"
         android:angle="270" />
 
 </shape>

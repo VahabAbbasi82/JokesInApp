@@ -21,4 +21,14 @@
         android:name="ir.vahab.jokesinapp.presentation.ui.JokesFragment"
         android:label="Jokes"
         tools:layout="@layout/fragment_jokes" />
+    <dialog
+        android:id="@+id/jokeDetailDialog"
+        android:name="ir.vahab.jokesinapp.presentation.ui.JokeDetailDialog"
+        android:label="dialog_joke_detail"
+        tools:layout="@layout/dialog_joke_detail" />
+    <action
+        android:id="@+id/action_global_jokeDetailDialog"
+        app:destination="@id/jokeDetailDialog"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out" />
 </navigation>

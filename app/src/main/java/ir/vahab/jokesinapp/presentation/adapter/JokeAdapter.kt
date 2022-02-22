@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.vahab.jokesinapp.databinding.ItemJokeBinding
 import ir.vahab.jokesinapp.domain.model.Joke
 
-class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
+class JokeAdapter(
+    private val itemClickListener: OnItemClickListener
+) : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
 
     var searchQuery = ""
         set(value) {
@@ -27,10 +29,10 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
 
     override fun onBindViewHolder(holder: JokeAdapter.ViewHolder, position: Int) {
         val joke = getItem(position)
-        holder.bind(joke)
+        holder.bind(joke, itemClickListener)
     }
 
-    private fun highLightText(spannable: Spannable, string: String, start: Int) {
+    private fun highLightText(spannable: Spannable, string: String) {
         val startIndex =  string.lowercase()
             .indexOf(searchQuery.lowercase())
         if (startIndex > -1) {
@@ -42,27 +44,29 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(private val binding: ItemJokeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(joke: Joke) {
+        fun bind(joke: Joke, itemClickListener: OnItemClickListener) {
             binding.apply {
                 val jokeCategory = joke.category
                 val jokeSetup = joke.setup
 
                 if (searchQuery.isNotEmpty()) {
                     val jokeCatSpannable = SpannableString(jokeCategory)
-                    highLightText(jokeCatSpannable, jokeCategory, 0)
+                    highLightText(jokeCatSpannable, jokeCategory)
                     itemJokeCategory.text = jokeCatSpannable
 
                     val lockDetailSpannable = SpannableString(jokeSetup)
-                    highLightText(lockDetailSpannable, jokeSetup, 0)
+                    highLightText(lockDetailSpannable, jokeSetup)
                     itemJokeText.text = lockDetailSpannable
                 } else {
                     itemJokeCategory.text = jokeCategory
                     itemJokeText.text = jokeSetup
                 }
             }
+            itemView.setOnClickListener {
+                itemClickListener.onItemClicked(joke = joke)
+            }
         }
     }
-
 
     object DiffCallback : DiffUtil.ItemCallback<Joke>() {
         var searchQuery = ""
@@ -73,5 +77,9 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.ViewHolder>(DiffCallback) {
             oldItem == newItem &&
                     !oldItem.category.lowercase().contains(searchQuery.lowercase()) &&
                     !oldItem.setup.lowercase().contains(searchQuery.lowercase())
+    }
+
+    interface OnItemClickListener{
+        fun onItemClicked(joke: Joke)
     }
 }
