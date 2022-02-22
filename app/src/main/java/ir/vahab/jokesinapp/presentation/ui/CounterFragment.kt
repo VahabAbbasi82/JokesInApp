@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 import ir.vahab.jokesinapp.R
 import ir.vahab.jokesinapp.data.local.preferences.PreferencesManager
 import ir.vahab.jokesinapp.databinding.FragmentCounterBinding
+import ir.vahab.jokesinapp.presentation.viewmodel.CounterViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -21,15 +24,17 @@ class CounterFragment : Fragment(R.layout.fragment_counter) {
 
     @Inject
     lateinit var preferencesManager : PreferencesManager
+    private val viewModel : CounterViewModel by viewModels()
     lateinit var binding : FragmentCounterBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCounterBinding.bind(view)
-        init()
+
+        viewModel.runAppCounter()
+
         binding.apply {
-            val counter = runBlocking { preferencesManager.appCounter.first() }
-            tvCounter.text = String.format("App Counter = $counter")
+            tvCounter.text = String.format("App Counter = ${viewModel.counter.value}")
         }
         controller(view)
     }
@@ -50,13 +55,6 @@ class CounterFragment : Fragment(R.layout.fragment_counter) {
             }
         }
         thread.start()
-    }
-
-    private fun init() {
-        // next attempt for typing
-        CoroutineScope(Dispatchers.IO).launch {
-            preferencesManager.setAppCounter(preferencesManager.appCounter.first() + 1)
-        }
     }
 
     override fun onResume() {

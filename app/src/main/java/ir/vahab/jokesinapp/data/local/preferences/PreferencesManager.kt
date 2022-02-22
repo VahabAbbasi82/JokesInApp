@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,9 +24,9 @@ class PreferencesManager @Inject constructor(@ApplicationContext appContext: Con
 
     private val dataStore = appContext.dataStore
 
-    suspend fun setAppCounter(appCounter: Int) {
+    suspend fun setAppCounter() {
         dataStore.edit { preferences ->
-            preferences[APP_COUNTER] = appCounter
+            preferences[APP_COUNTER] = appCounter.first() + 1
         }
     }
 

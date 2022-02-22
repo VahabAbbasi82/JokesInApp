@@ -20,15 +20,22 @@
         android:id="@+id/jokesFragment"
         android:name="ir.vahab.jokesinapp.presentation.ui.JokesFragment"
         android:label="Jokes"
-        tools:layout="@layout/fragment_jokes" />
+        tools:layout="@layout/fragment_jokes" >
+        <action
+            android:id="@+id/action_jokesFragment_to_jokeDetailDialog"
+            app:destination="@id/jokeDetailDialog"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
     <dialog
         android:id="@+id/jokeDetailDialog"
         android:name="ir.vahab.jokesinapp.presentation.ui.JokeDetailDialog"
         android:label="dialog_joke_detail"
-        tools:layout="@layout/dialog_joke_detail" />
-    <action
-        android:id="@+id/action_global_jokeDetailDialog"
-        app:destination="@id/jokeDetailDialog"
-        app:enterAnim="@android:anim/fade_in"
-        app:exitAnim="@android:anim/fade_out" />
+        tools:layout="@layout/dialog_joke_detail" >
+        <argument
+            android:name="joke"
+            app:argType="ir.vahab.jokesinapp.domain.model.Joke"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </dialog>
 </navigation>

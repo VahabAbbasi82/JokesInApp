@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -100,8 +99,11 @@ class JokesFragment : Fragment(R.layout.fragment_jokes), JokeAdapter.OnItemClick
     }
 
     override fun onItemClicked(joke: Joke) {
-        val action = JokesFragmentDirections.actionGlobalJokeDetailDialog()
+        val action = JokesFragmentDirections.actionJokesFragmentToJokeDetailDialog(joke = joke)
         findNavController().navigate(action)
+//        val action = JokesFragmentDirections.actionGlobalJokeDetailDialog()
+//        findNavController().navigate(action)
+
 //        this@JokesFragment.parentFragmentManager.let {
 //            JokeDetailDialog().show(it, "JokeDetail")
 //        }
