@@ -2,6 +2,8 @@ package ir.vahab.jokesinapp.presentation.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -17,6 +19,7 @@ import ir.vahab.jokesinapp.databinding.FragmentJokesBinding
 import ir.vahab.jokesinapp.domain.model.Joke
 import ir.vahab.jokesinapp.domain.util.Resource
 import ir.vahab.jokesinapp.presentation.adapter.JokeAdapter
+import ir.vahab.jokesinapp.presentation.util.setOnQueryTextChanged
 import ir.vahab.jokesinapp.presentation.viewmodel.JokeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
@@ -61,6 +64,8 @@ class JokesFragment : Fragment(R.layout.fragment_jokes), JokeAdapter.OnItemClick
             }
         }
 
+        setHasOptionsMenu(true)
+
 //        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
 //            override fun handleOnBackPressed() {} })
     }
@@ -101,11 +106,22 @@ class JokesFragment : Fragment(R.layout.fragment_jokes), JokeAdapter.OnItemClick
     override fun onItemClicked(joke: Joke) {
         val action = JokesFragmentDirections.actionJokesFragmentToJokeDetailDialog(joke = joke)
         findNavController().navigate(action)
-//        val action = JokesFragmentDirections.actionGlobalJokeDetailDialog()
-//        findNavController().navigate(action)
+    }
 
-//        this@JokesFragment.parentFragmentManager.let {
-//            JokeDetailDialog().show(it, "JokeDetail")
-//        }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search, menu)
+
+        val searchItem = menu.findItem(R.id.action_search_query)
+        searchView = searchItem.actionView as SearchView
+
+        val pendingQuery = viewModel.searchQuery.value
+        if (pendingQuery.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(pendingQuery, false)
+        }
+
+        searchView.setOnQueryTextChanged {
+            viewModel.searchQuery.value = it
+        }
     }
 }
