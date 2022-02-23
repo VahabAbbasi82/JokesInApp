@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Jokes</string>
     <string name="search_view">Search</string>
+    <string name="splash_note">The AppCounter works fine if you run application directly from android device or emulator (Not by clicking Run \'app\' in Android Studio).</string>
 </resources>
