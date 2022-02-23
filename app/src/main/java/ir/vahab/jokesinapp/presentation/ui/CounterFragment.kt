@@ -12,13 +12,13 @@ import ir.vahab.jokesinapp.R
 import ir.vahab.jokesinapp.data.local.preferences.PreferencesManager
 import ir.vahab.jokesinapp.databinding.FragmentCounterBinding
 import ir.vahab.jokesinapp.presentation.viewmodel.CounterViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CounterFragment : Fragment(R.layout.fragment_counter) {
 
@@ -31,11 +31,12 @@ class CounterFragment : Fragment(R.layout.fragment_counter) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCounterBinding.bind(view)
 
-        viewModel.runAppCounter()
-
-        binding.apply {
-            tvCounter.text = String.format("App Counter = ${viewModel.counter.value}")
+        lifecycleScope.launchWhenCreated {
+            viewModel.counter.collect {
+                binding.tvCounter.text = String.format("App Counter = $it")
+            }
         }
+
         controller(view)
     }
 

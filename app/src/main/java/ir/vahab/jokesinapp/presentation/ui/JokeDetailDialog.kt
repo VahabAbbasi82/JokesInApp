@@ -18,18 +18,19 @@ class JokeDetailDialog : DialogFragment() {
     private lateinit var binding: DialogJokeDetailBinding
     private val args: JokeDetailDialogArgs by navArgs()
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        return DialogJokeDetailBinding.inflate(inflater, container, false).root
-//    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = DialogJokeDetailBinding.inflate(inflater, container, false).root
+        init()
+        return view
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DialogJokeDetailBinding.bind(view)
-        init()
 
         args.joke?.let { setup(it) }
 
@@ -41,13 +42,14 @@ class JokeDetailDialog : DialogFragment() {
             tvJokeCategory.text = joke.category
             tvJokeSetup.text = joke.setup
             tvJokeDelivery.text = joke.delivery
+            tvJokeId.text = String.format("JokeId: ${joke.id}")
         }
     }
 
     private fun init() {
-//        dialog?.window!!.requestFeature(Window.FEATURE_NO_TITLE)
-//        dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog!!.setCancelable(true)
-//        dialog!!.setCanceledOnTouchOutside(true)
+        dialog?.window!!.requestFeature(Window.FEATURE_NO_TITLE)
+        dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.setCancelable(true)
+        dialog!!.setCanceledOnTouchOutside(true)
     }
 }

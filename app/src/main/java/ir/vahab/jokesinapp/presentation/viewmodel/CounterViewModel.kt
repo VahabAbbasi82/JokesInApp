@@ -13,20 +13,25 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @HiltViewModel
 class CounterViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager
 ) : ViewModel() {
 
-    private val _counter = MutableStateFlow(0)
-    val counter = _counter.asStateFlow()
+    private val _counter = MutableStateFlow(preferencesManager.appCounter)
+    val counter = _counter.flatMapLatest {
+        preferencesManager.appCounter
+    }
 
-    fun runAppCounter() {
-        _counter.value = runBlocking { preferencesManager.appCounter.first() }
+    private fun runAppCounter() {
+        runBlocking { preferencesManager.setAppCounter(
+            _counter.value.first() + 1
+        ) }
     }
 
     override fun onCleared() {
-        runBlocking { preferencesManager.setAppCounter() }
+        runAppCounter()
         super.onCleared()
     }
 }
